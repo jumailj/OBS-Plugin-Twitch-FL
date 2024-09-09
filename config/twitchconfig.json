@@ -1,0 +1,7 @@
+{
+    "client_id": "d84389zb938mec7svicb3u4a2uuf45",
+    "client_secret":"4iisthig68vy7o3a2x67oae99cxr25",
+    "my_channel": "mrkingsyt_01",
+    "redirect_uri": "https://localhost",
+    "scope": "chat:read%20chat:edit%20user_read%20user:write:chat%20user:bot%20channel:bot"
+}
