@@ -1,6 +1,8 @@
 # #author: jumail-j
 # #date: 2024-08-27
 
+#version : v.2.0
+
 #third-party
 import obspython as obs 
 import requests 
