@@ -1,4 +1,5 @@
-# Import necessary functions and classes
+#author: jumail-j
+#date: 12-09-2024
 from app_utils import  read_json
 from twitch_utils import authenticate_and_return_oauthToken
 

@@ -138,11 +138,12 @@ def isUserLive(userName, token, client_id):
         'user_login': userName 
     }
 
-    # Define the headers with the client ID
+    # Define the headers with the client ID 
     headers = {
         'Authorization': f'Bearer {token}', 
         'Client-Id': client_id 
     }
+    
 
     # Send a GET request to the Twitch API to fetch stream information for the specific user
     response = requests.get(stream_info_url, headers=headers, params=params)
@@ -156,3 +157,4 @@ def isUserLive(userName, token, client_id):
     else:    
         return False #it's not true when user is not live
 
+#game this is the develo

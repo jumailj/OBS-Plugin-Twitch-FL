@@ -29,8 +29,8 @@ scriptEnabled = None
 watchTime = 1
 sourceIndex = 0
 
-browserWidth = 1000
-browserHeight = 1000
+browserWidth = None
+browserHeight = None
 
 #browser-source-config
 browserSourcePosX= None
@@ -49,10 +49,20 @@ def script_properties():
     obs.obs_properties_add_bool(props, "enable_script", "Enable Script")
 
     #how much time to watch a each stream.
-    obs.obs_properties_add_int(props, "watch_time", "Watch Time", 1,  100, 1)
+    obs.obs_properties_add_int(props, "watch_time", "Watch Time (s)", 1,  100, 1)
+
+    #browser scale
     obs.obs_properties_add_float(props, "scale_factor", "Scale", 0, 1, 0.1)
+
+    #browser-windows-size
+    obs.obs_properties_add_int(props, "browser_width", "Browser Width", 0, 3000, 1)
+    obs.obs_properties_add_int(props, "browser_height", "Browser Height", 0, 3000, 1)
+
+    #browser-windows-position
     obs.obs_properties_add_int(props, "browser_pos_x", "Position X", 0, 2000, 1)
     obs.obs_properties_add_int(props, "browser_pos_y", "Position Y", 0, 2000, 1)
+
+
 
     return props
 
@@ -65,6 +75,8 @@ def script_update(settings):
     global sourceIndex
     global watchTime
     global scaleFactor
+    global browserWidth
+    global browserHeight
     global browserSourcePosX
     global browserSourcePosY
 
@@ -75,18 +87,26 @@ def script_update(settings):
     obs.obs_data_set_int(settings, "watch_time",watchTimeInSeconds )
 
     watchTime = watchTimeInSeconds * 1000
-    print('watch time when script enable  on', watchTime)
-    
+    print('script Updated: watchtime: ', watchTime)
+
+    #update scale factor.
+    scaleFactor = obs.obs_data_get_double(settings, "scale_factor")
+
+    #browser-window-size
+    browserWidth = obs.obs_data_get_int(settings, "browser_width")
+    obs.obs_data_set_int(settings, "browser_width", browserWidth)
+
+    browserHeight = obs.obs_data_get_int(settings, "browser_height")
+    obs.obs_data_set_int(settings, "browser_height", browserHeight)
+
+    #update browser position
+    browserSourcePosX = obs.obs_data_get_int(settings, "browser_pos_x")
+    browserSourcePosY = obs.obs_data_get_int(settings, "browser_pos_y")
+
     if(scriptEnabled):
         circular_user.reset()
         sourceIndex = 0
 
-        #update scale factor.
-        scaleFactor = obs.obs_data_get_double(settings, "scale_factor")
-
-        #update browser position
-        browserSourcePosX = obs.obs_data_get_int(settings, "browser_pos_x")
-        browserSourcePosY = obs.obs_data_get_int(settings, "browser_pos_y")
 
 
 
@@ -148,7 +168,16 @@ def script_load(settings):
     print('watch time when script loaded', watchTimeInSeconds)
     watchTime = watchTimeInSeconds
 
-    #it will update the global, instad of taking it as a local varable.
+    #call back all the value back to the global vairables;
+    #load all the default value
+    scaleFactor = obs.obs_data_get_double(settings, "scale_factor")
+    browserWidth = obs.obs_data_get_int(settings, "browser_width")
+    browserHeight = obs.obs_data_get_int(settings, "browser_height")
+    browserSourcePosX = obs.obs_data_get_int(settings, "browser_pos_x")
+    browserSourcePosY = obs.obs_data_get_int(settings, "browser_pos_y")
+
+
+    #it will update the global, instead of taking it as a local varable.
     global userlist, circular_user, twitchConfig, authData
 
     #load all the user data
@@ -183,5 +212,3 @@ def script_tick(seconds):
 def script_unload():
     obs.timer_remove(run_task)
     pass
-
-
