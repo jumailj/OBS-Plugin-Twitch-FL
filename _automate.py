@@ -108,8 +108,6 @@ def script_update(settings):
         sourceIndex = 0
 
 
-
-
 def validateAndUpdateBrowser():
     #if app is not validate, script will exit,
     #auth data shoudl be update, because once the auth is updated, need to change on the authData variable
